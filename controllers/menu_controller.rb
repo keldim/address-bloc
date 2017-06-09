@@ -44,6 +44,7 @@ class MenuController
        main_menu
      end
    end
+end
 
    def view_all_entries
      address_book.entries.each do |entry|
@@ -95,7 +96,7 @@ class MenuController
 
           when "d"
           when "e"
-      
+
           when "m"
             system "clear"
             main_menu
