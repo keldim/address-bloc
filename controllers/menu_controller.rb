@@ -13,7 +13,8 @@ class MenuController
     puts "2 - Create an entry"
     puts "3 - Search for an entry"
     puts "4 - Import entries from a CSV"
-    puts "5 - Exit"
+    puts "5 - Demolish all entries"
+    puts "6 - Exit"
     print "Enter your selection: "
 
     selection = gets.to_i
@@ -36,6 +37,10 @@ class MenuController
       read_csv
       main_menu
     when 5
+      system "clear"
+      delete_all_entries
+      main_menu
+    when 6
       puts "Good-bye!"
       exit(0)
     else
@@ -134,6 +139,31 @@ def delete_entry(entry)
   puts "#{entry.name} has been deleted"
 end
 
+def delete_all_entries
+  puts "Are you sure you want to delete all entries?"
+  puts "Y - yes"
+  puts "N - no"
+  answer = gets.chomp
+
+  if answer == "Y"
+    if address_book.entries.size == 0
+      system "clear"
+      puts "There are no entries to delete"
+      return
+    end
+    system "clear"
+    address_book.entries.clear
+    puts "All entries have been deleted"
+  elsif answer == "N"
+    system "clear"
+  else
+    system "clear"
+    puts "#{answer} is not a valid input"
+    delete_all_entries
+  end
+
+end
+
 def edit_entry(entry)
 
   print "Updated name: "
@@ -155,32 +185,29 @@ end
 
 def search_submenu(entry)
 
-    puts "\nd - delete entry"
-    puts "e - edit this entry"
-    puts "m - return to main menu"
+  puts "\nd - delete entry"
+  puts "e - edit this entry"
+  puts "m - return to main menu"
 
-    selection = gets.chomp
+  selection = gets.chomp
 
-    
-    case selection
-      when "d"
-        system "clear"
-        delete_entry(entry)
-        main_menu
-      when "e"
-        edit_entry(entry)
-        system "clear"
-        main_menu
-      when "m"
-        system "clear"
-        main_menu
-      else
-        system "clear"
-        puts "#{selection} is not a valid input"
-        puts entry.to_s
-        search_submenu(entry)
-    end
+
+  case selection
+  when "d"
+    system "clear"
+    delete_entry(entry)
+    main_menu
+  when "e"
+    edit_entry(entry)
+    system "clear"
+    main_menu
+  when "m"
+    system "clear"
+    main_menu
+  else
+    system "clear"
+    puts "#{selection} is not a valid input"
+    puts entry.to_s
+    search_submenu(entry)
   end
-
-
 end
